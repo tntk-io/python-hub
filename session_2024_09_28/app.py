@@ -1,7 +1,5 @@
 from flask import Flask, request, jsonify
 from weather import WeatherRecord, WeatherResponse
-import re
-import math
 
 app = Flask(__name__)
 
@@ -10,7 +8,8 @@ records = WeatherRecord.load_from_file()
 
 @app.get('/search')
 def search():
-    name, page = request.args.get('name', default=''), request.args.get('page', default='1')
+    name = request.args.get('name', default='')
+    page = request.args.get('page', default='1')
 
     if not page.isdigit() or int(page) == 0:
         return jsonify({'error': 'Invalid page number'})
