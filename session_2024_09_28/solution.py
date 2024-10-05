@@ -25,4 +25,4 @@ def weatherStation(keyword, max_temp=None):
     print([r.to_dict() for r in records])
 
 
-weatherStation('ar', max_temp=10)
+weatherStation('AB', max_temp=10)

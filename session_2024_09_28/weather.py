@@ -4,9 +4,9 @@ import re
 
 
 class WeatherRecord:
-    weather_pattern = r'(-?\d+)'
-    wind_pattern = r'Wind: (\d+)'
-    humidity_pattern = r'Humidity: (\d+)'
+    weather_pattern = re.compile(r'(-?\d+)')
+    wind_pattern = re.compile(r'Wind: (\d+)')
+    humidity_pattern = re.compile(r'Humidity: (\d+)')
 
     @staticmethod
     def load_from_file(path='hackerrank_weather.json'):
@@ -18,11 +18,20 @@ class WeatherRecord:
                 records.append(WeatherRecord(record['name'], record['weather'], record['status']))
             return records
 
+    @staticmethod
+    def filter_data(data, name, min_temp, max_temp):
+        filtered = []
+        for r in data:
+            if re.search(re.escape(name), r.name, flags=re.IGNORECASE) and \
+                    (min_temp is None or r.weather >= min_temp) and (max_temp is None or r.weather <= max_temp):
+                filtered.append(r)
+        return filtered
+
     def __init__(self, name, weather, status):
         self.name = name
-        self.weather = int(re.match(WeatherRecord.weather_pattern, weather).groups()[0])
-        self.wind = int(re.match(WeatherRecord.wind_pattern, status[0]).groups()[0])
-        self.humidity = int(re.match(WeatherRecord.humidity_pattern, status[1]).groups()[0])
+        self.weather = int(WeatherRecord.weather_pattern.match(weather).groups()[0])
+        self.wind = int(WeatherRecord.wind_pattern.match(status[0]).groups()[0])
+        self.humidity = int(WeatherRecord.humidity_pattern.match(status[1]).groups()[0])
 
     def to_dict(self):
         return {
@@ -36,10 +45,10 @@ class WeatherRecord:
 
 
 class WeatherResponse:
-    def __init__(self, page: int, per_page: int, name: str, data: [WeatherRecord]):
+    def __init__(self, page: int, per_page: int, name: str, data: [WeatherRecord], **kwargs):
         self.page = page
         self.per_page = per_page
-        self.data = [r for r in data if re.search(re.escape(name), r.name, flags=re.IGNORECASE)]
+        self.data = WeatherRecord.filter_data(data, name, kwargs.get('min_temp'), kwargs.get('max_temp'))
         self.total = len(self.data)
         self.total_pages = math.ceil(self.total / self.per_page)
 
