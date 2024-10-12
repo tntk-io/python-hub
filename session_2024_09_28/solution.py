@@ -1,28 +1,32 @@
 import requests
-from weather import WeatherRecord
-
-BASE_URL = 'https://jsonmock.hackerrank.com/api/weather/search'
+from session_2024_09_28.weather import WeatherRecord
 
 
-def weatherStation(keyword, max_temp=None):
-    params = {
-        'name': keyword,
-        'page': 1
-    }
-    total_pages = None
+class Solution:
+    def __init__(self, API_URL):
+        self.BASE_URL = API_URL
 
-    records: [WeatherRecord] = []
+    def weatherStation(self, keyword, max_temp=None):
+        params = {
+            'name': keyword,
+            'page': 1
+        }
+        total_pages = None
 
-    while total_pages is None or params['page'] <= total_pages:
-        data = requests.get(BASE_URL, params=params).json()
-        total_pages = data['total_pages']
-        for record in data['data']:
-            parsed_record = WeatherRecord(record['name'], record['weather'], record['status'])
-            if max_temp is None or parsed_record.weather <= max_temp:
-                records.append(parsed_record)
-        params['page'] += 1
+        records: [WeatherRecord] = []
 
-    print([r.to_dict() for r in records])
+        while total_pages is None or params['page'] <= total_pages:
+            data = requests.get(self.BASE_URL, params=params).json()
+            total_pages = data['total_pages']
+            for record in data['data']:
+                parsed_record = WeatherRecord(record['name'], record['weather'], record['status'])
+                if max_temp is None or parsed_record.weather <= max_temp:
+                    records.append(parsed_record)
+            params['page'] += 1
+
+        return [r.to_dict() for r in records]
 
 
-weatherStation('AB', max_temp=10)
+if __name__ == '__main__':
+    BASE_URL = 'https://jsonmock.hackerrank.com/api/weather/search'
+    print(Solution(BASE_URL).weatherStation('AB', max_temp=10))

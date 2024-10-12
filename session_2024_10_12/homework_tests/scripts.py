@@ -1,3 +1,5 @@
+from itertools import product
+
 import requests
 import datetime as dt
 
@@ -17,7 +19,18 @@ def current_time():
     return utc_datetime
 
 
+def cartesian(l1, l2):
+    res = []
+    for a in l1:
+        for b in l2:
+            res.append((a, b))
+    return res
+
+
 if __name__ == '__main__':
-    now_remote = current_time()
-    now_local = dt.datetime.now(dt.timezone.utc)
-    diff = now_local - now_remote
+    # now_remote = current_time()
+    # now_local = dt.datetime.now(dt.timezone.utc)
+    # diff = now_local - now_remote
+    l1, l2 = list(range(1, 4)), list(range(6, 9))
+    print(cartesian(l1, l2))
+    print(list(product(l1, l2)))

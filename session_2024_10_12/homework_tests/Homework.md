@@ -49,7 +49,7 @@ Create two generators, the first one yields the lists and their expected result 
 in a tuple, where edge cases can be tested (e.g. empty lists, different data types mixed). The second generator
 should yield 500 lists (with a length between 100 and 400, filled with random values) with their expected value.
 
-Use these generators when you parameterize the test case.
+Use these generators when you parametrize the test case.
 
 Note that the @pytest.mark.parameterize expects one iterable, so you will have to [chain](https://docs.python.org/3/library/itertools.html#itertools.chain)
 the two generators together to make it work.
