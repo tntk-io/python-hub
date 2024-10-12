@@ -13,7 +13,7 @@ def weatherStation(keyword, max_temp=None):
 
     records: [WeatherRecord] = []
 
-    while not total_pages or params['page'] <= total_pages:
+    while total_pages is None or params['page'] <= total_pages:
         data = requests.get(BASE_URL, params=params).json()
         total_pages = data['total_pages']
         for record in data['data']:
