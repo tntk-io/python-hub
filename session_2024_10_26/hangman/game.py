@@ -1,16 +1,12 @@
 import json
 import logging
 from random import choice
-import os
 
+from clear import clear
 import requests
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-
-
-def clear():
-    return os.system('cls')
 
 
 class Game:
@@ -35,7 +31,7 @@ class Game:
     def start(self):
         logger.info('Game started.')
         selected_word = choice(self.words).upper()
-        print(selected_word)
+        logger.debug(f'The selected word was: {selected_word}')
         correct_guesses = []
         incorrect_guesses = []
 
@@ -70,6 +66,8 @@ class Game:
             print(self.steps[len(incorrect_guesses)])
             print('Gamer over!')
             logger.info('Defeat.')
+            return False, len(incorrect_guesses)
         else:
             logger.info('Victory.')
             print('Victory!')
+            return True, len(incorrect_guesses)
