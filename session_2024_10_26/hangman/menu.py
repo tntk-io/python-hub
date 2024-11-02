@@ -28,6 +28,13 @@ class UserInfo:
         self.total_games = total_games
         self.incorrect_guesses = incorrect_guesses
 
+    def __add__(self, other):
+        if type(self) != type(other):
+            raise Exception('Wrong types')
+        else:
+            return UserInfo(self.username, self.victories + other.victories,
+                            self.total_games + other.total_games, self.incorrect_guesses + other.incorrect_guesses)
+
     @property
     def victory_percentage(self):
         return self.victories / self.total_games * 100
@@ -63,10 +70,7 @@ class Leaderboard:
 
     def add_info(self, info: UserInfo):
         if info.username in self.users:
-            selected_user = self.users[info.username]
-            selected_user.victories += info.victories
-            selected_user.total_games += info.total_games
-            selected_user.incorrect_guesses += info.incorrect_guesses
+            self.users[info.username] += info
         else:
             self.users[info.username] = info
 
