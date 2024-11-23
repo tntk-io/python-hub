@@ -8,11 +8,6 @@ with open('coffee.csv', encoding='utf-8') as file:
     for line in reader:
         data.append(line)
 
-print('The most common country was', Counter(d['Location.Country'] for d in data).most_common()[0][0])
-print('The most common color of coffee beans was', Counter(d['Data.Color'] for d in data).most_common()[0][0])
-highest_country = max(data, key=lambda d: int(d['Location.Altitude.Average']))
-print('The highest country based on average altitude was', highest_country['Location.Country'])
-
 
 # How much was the overall output (number of bags × weight)?
 def total_output(data):
@@ -20,9 +15,6 @@ def total_output(data):
     for record in data:
         total += int(record['Data.Production.Number of bags']) * float(record['Data.Production.Bag weight'])
     return total
-
-
-print(f'Total output: {total_output(data)} kg (?)')
 
 
 # Which one was sweeter on average, Arabica or Robusta?
@@ -38,9 +30,6 @@ def sweetest_variety(data):
     return sweetest_species[0]
 
 
-print(f'{sweetest_variety(data)} is the sweetest species')
-
-
 # Processing methods using for loop and default dict
 def frequency_of_processing_methods(data):
     processing_methods = defaultdict(int)
@@ -53,9 +42,6 @@ def frequency_of_processing_methods(data):
     return processing_methods
 
 
-print('Processing methods', frequency_of_processing_methods(data))
-
-
 # Processing methods using Counter
 def frequency_of_processing_methods_using_counter(data):
     methods = [record['Data.Type.Processing method'] for record in data]
@@ -63,9 +49,6 @@ def frequency_of_processing_methods_using_counter(data):
     d['Other'] += d['nan']
     del d['nan']
     return d
-
-
-print('Processing methods', frequency_of_processing_methods_using_counter(data))
 
 
 # Processing methods without default dict
@@ -81,9 +64,6 @@ def frequency_of_processing_methods_using_builtins(data):
         else:
             processing_methods[method] += 1
     return processing_methods
-
-
-print('Processing methods', frequency_of_processing_methods_using_builtins(data))
 
 
 # List the variety of the top and the bottom 5 coffee beans by total score
@@ -108,13 +88,6 @@ def bottom_varieties(data, n):
     return [t[0] for t in varieties_by_score(data)[-n:]]
 
 
-print('Top five:', ', '.join(top_varieties(data, 5)))
-print('Bottom five:', ', '.join(bottom_varieties(data, 5)))
-
-# Show the number of countries cultivating coffee beans
-print(len({record['Location.Country'] for record in data}), 'countries were recorded in the dataset')
-
-
 # Which country produced the most bags of coffee and how many?
 def country_producing_most_bags(data):
     countries = defaultdict(int)
@@ -126,4 +99,16 @@ def country_producing_most_bags(data):
     return country_producing_most_bags[0]
 
 
+print('The most common country was', Counter(d['Location.Country'] for d in data).most_common()[0][0])
+print('The most common color of coffee beans was', Counter(d['Data.Color'] for d in data).most_common()[0][0])
+print('The highest country based on average altitude was',
+      max(data, key=lambda d: int(d['Location.Altitude.Average']))['Location.Country'])
+print(f'Total output: {total_output(data)} kg (?)')
+print(f'{sweetest_variety(data)} is the sweetest species')
+print('Processing methods', frequency_of_processing_methods(data))
+print('Processing methods', frequency_of_processing_methods_using_counter(data))
+print('Processing methods', frequency_of_processing_methods_using_builtins(data))
+print('Top five:', ', '.join(top_varieties(data, 5)))
+print('Bottom five:', ', '.join(bottom_varieties(data, 5)))
+print(len({record['Location.Country'] for record in data}), 'countries were recorded in the dataset')
 print('The country that produced the most bags of coffee is', country_producing_most_bags(data))
