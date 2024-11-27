@@ -1,4 +1,16 @@
-# python-hub classes
+# Python Hub
+
+We are a DevOps school run by engineers with rich educational and professional credentials who've helped hundreds of students land tech jobs over the past 5 years. 
+
+This repository is a collection of real-world coding interview cases for Cloud/DevOps/SRE roles, designed to help you build practical skills and confidence for your next big opportunity.
+
+We host live, 2-hour instructor-led Zoom sessions every Saturday from 9 AM to 11 AM CT. 
+
+Join our community for just $50 a month - cancel anytime! 
+
+For details, contact us at https://tntk.io/.
+
+# Description
 
 Scripts written during python-hub classes.
 
