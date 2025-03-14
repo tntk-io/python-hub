@@ -32,6 +32,20 @@ class Phone:
     def highest_res(self):
         return max(c.resolution for c in self.list_of_cameras)
 
+    @property
+    def average_resolution(self):
+        if not self.list_of_cameras:
+            return 0
+
+        total_res = 0
+        count = 0
+
+        for camera in self.list_of_cameras:
+            total_res += camera.resolution
+            count += 1
+
+        return total_res / count
+
 
 samsung = Phone(
     name='Samsung Galaxy S25 Ultra',
@@ -107,5 +121,49 @@ asus = Phone(
 
 phones = [samsung, iphone, honor, oppo, asus]
 
+### Task 1
 highest_res_camera = max(phones, key=lambda p: p.highest_res())
 print(f'Phone with the highest resolution camera: {highest_res_camera.name} ({highest_res_camera.highest_res()} MP)')
+
+### Task 2
+phones_with_jack = []
+for phone in phones:
+    if phone.has_jack == True:
+        phones_with_jack.append(phone.name)
+print(f'Phones with a jack: {phones_with_jack}')
+
+### Task 3
+for phone in phones:
+    if phone.markets:
+        string_markets = ', '.join(phone.markets)
+        print(f'{phone.name} - {string_markets}')
+    else:
+        print(f'{phone.name} - N/A')
+
+### Task 4
+for phone in phones:
+    print(f'{phone.name} - Average Camera Resolution: {phone.average_resolution:.2f} MP')
+
+### Task 5
+operating_systems = []
+count = 0
+for phone in phones:
+    if phone.os not in operating_systems:
+        operating_systems.append(phone.os)
+        count += 1
+print(f'The amount of different operating system is - {count}')
+
+### Task 6
+strongest_battery_phone = phones[0]
+for phone in phones:
+    if phone.battery > strongest_battery_phone.battery:
+        strongest_battery_phone = phone
+
+print(f'The phone with the strongest battery is {strongest_battery_phone.name} with {strongest_battery_phone.battery}mAh')
+
+### Task 7
+phones_without_widevine_l1 = []
+for phone in phones:
+    if phone.widevine_level != 'L1':
+        phones_without_widevine_l1.append(phone.name)
+print(f'Phones without WideVine level L1: {phones_without_widevine_l1}')
