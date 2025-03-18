@@ -11,7 +11,7 @@ For a given input, write a script using Python that will:
 * Perform a GET request against the API service
     * The API endpoint is: **https://jsonmock.hackerrank.com/api/weather**
     * Queries can be made with the following syntax: `/search?name=keyword` where `keyword` is some text that filters the records based on matching cities.
-    * The search is case-insensitive, and it checks whether the given city's name starts with the keyword.
+    * The search is case-insensitive, and it checks whether the given city's name contains the keyword.
     * The response from the API is paginated meaning that if there is more than 1 page of data the next subsequent pages can be accessed with the help of the `page` query parameter in the URL. Example: `&page=num` where `num` is the page number.
 * Parse the results into a list of comma separated strings in the format: **city_name,temperature,wind,humidity**
 * If specified, remove any records where the temperature is greater than or equal to the temperature specified in the **max_temp** parameter
