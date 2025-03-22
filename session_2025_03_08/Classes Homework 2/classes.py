@@ -7,11 +7,17 @@ class Camera:
         self.camera_type = type
         self.f_number = f_number
 
+    def __repr__(self):
+        return str(self.__dict__)
+
 
 class Display:
     def __init__(self, size, type):
         self.size = size
         self.type = type
+
+    def __repr__(self):
+        return str(self.__dict__)
 
 
 class Phone:
@@ -31,6 +37,19 @@ class Phone:
 
     def highest_res(self):
         return max(c.resolution for c in self.list_of_cameras)
+
+    @property
+    def average_resolution(self):
+        if not self.list_of_cameras:
+            return 0
+
+        return sum(c.resolution for c in self.list_of_cameras) / len(self.list_of_cameras)
+
+    def __str__(self):
+        return f'{self.name}'
+
+    def __repr__(self):
+        return f'{self.__dict__}'
 
 
 samsung = Phone(
@@ -89,7 +108,7 @@ oppo = Phone(
     os='Android',
     has_jack=False,
     battery=5600,
-    markets=['India']
+    markets=['Europe', 'India']
 )
 
 asus = Phone(
@@ -109,3 +128,29 @@ phones = [samsung, iphone, honor, oppo, asus]
 
 highest_res_camera = max(phones, key=lambda p: p.highest_res())
 print(f'Phone with the highest resolution camera: {highest_res_camera.name} ({highest_res_camera.highest_res()} MP)')
+
+with_jack = [phone for phone in phones if phone.has_jack]
+print('\nPhones with jack:', ''.join(str(p) for p in with_jack))
+
+print('\nPhones and their markets:')
+for phone in phones:
+    print(f'{phone.name} - {', '.join(phone.markets) if phone.markets else 'N/A'}')
+
+print('\nPhones and their average resolution:')
+for phone in phones:
+    print(f'{phone.name} - {phone.average_resolution:.2f}MP')
+
+operating_systems = {p.os for p in phones}
+print(f'\nThere are {len(operating_systems)} unique operating systems.')
+
+# maximum = phones[0]
+#
+# for phone in phones:
+#     if phone.battery > maximum.battery:
+#         maximum = phone
+#
+# print(maximum)
+
+print('\nThe phone with the strongest battery is:', max(phones, key=lambda p: p.battery))
+
+print('\nPhones with WideVine level L1:', [str(p) for p in phones if p.widevine_level == 'L1'])
